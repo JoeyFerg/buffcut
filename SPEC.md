@@ -89,7 +89,7 @@ buffer overlay is displayed.
 
 1. The user can select the icon and it should bring up the clipboard buffer overlay.
 
-### Universal
+### Runtime
 
 1. When a user copies text, that text is added to the top of the clipboard buffer.
     - Duplicates are preserved in the order that they are copied.
@@ -142,6 +142,16 @@ Ease of use was a high priority when designing this system. This is shown can by
     - Windows.
 
 1. Should not have a widget.
+
+---
+
+## Dream Features
+
+These features are only to be pursued once all previously stated functionality is reached.
+
+- The Clipboard Buffer overlay provides list of common strings.
+- Provide additional ordering formats for favorites (i.e. alphabetical).
+- Provide configuration option for removing duplicates.
 
 ---
 
