@@ -2,8 +2,6 @@
 
 ## Overview
 
----
-
 Evergreen is a clipboard manager for Android devices. Evergreen's primary function is to save a history of
 copied texts to be selected and pasted later by the user. There are three main screens to Evergreen: the preferences
 screen, the clipboard buffer overlay, and the status bar icon. Users can use the preferences screen to change different
@@ -17,16 +15,12 @@ skills of users around the world.
 
 ## Scope
 
----
-
 The scope of this project simply includes a working clipboard buffer as described in the following requirements. Anything beyond
 that should be run by both the client and the team before it is added to this document and inevitably to this app.
 
 ---
 
 ## Screens
-
----
 
 ### Preferences
 
@@ -47,8 +41,6 @@ buffer overlay is displayed.
 ---
 
 ## Requirements
-
----
 
 ### Preferences Screen
 
@@ -118,8 +110,6 @@ buffer overlay is displayed.
 
 ## Non-Requirements
 
----
-
 1. This app should **not** replace the Android system clipboard.
 
 1. Should not support non-string copies.
@@ -140,8 +130,6 @@ buffer overlay is displayed.
 ---
 
 ## Use Examples
-
----
 
 ### Case 1: Tommy
 
@@ -170,8 +158,6 @@ Facebook from being hacked.
 
 ## Notes
 
----
-
 The client has based the ideas for this app on other clipboard managers; it might be useful to Investigate them.
 
 - Klipper for Linux.
@@ -179,11 +165,11 @@ The client has based the ideas for this app on other clipboard managers; it migh
 
 As for the look and feel of this app, the customer pointed us towards system apps and the Android style guide.
 
+[Link to project proposal.](https://repo.cse.taylor.edu/group-work/monkey/blob/master/README.md)
+
 ---
 
 ## Known Issues/Questions
-
----
 
 1. We need to come up with a name for Evergreen. The client had no recommendations other than "be professional."
 
@@ -202,8 +188,6 @@ As for the look and feel of this app, the customer pointed us towards system app
 ---
 
 ## Disclaimer
-
----
 
 This Software Requirements Specification is by no means complete and is intended to be modified as requirements are
 discovered and discarded throughout the software development process. This is simply my best effort to put into writing the
