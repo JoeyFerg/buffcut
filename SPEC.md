@@ -108,6 +108,22 @@ buffer overlay is displayed.
 
 ---
 
+## Client Requirements
+
+### Performance
+
+The responsiveness of the application will remain virtually immediate to user’s request throughout the entire experience. While this is not a requirement we see it as necessary for a good user experience and so that any operation performed on the site is fast and simple. Being able to copy and paste several different lines of texts should be consistent in its’ accountability to perform the correct actions as immediate as possible for all users.
+
+### Usability
+
+In comparison to the normal methods of copying and pasting android users were previously using, our interface will require less time pasting multiple lines of texts. This is purposely how we designed it. We wanted to comply to the client’s requirements to be as fast and intuitive as possible. So when trying to pastes several lines of text a user can simply select the text from the clipboard buffer that will be neatly displayed on screen.
+
+### Ease of Use
+
+Ease of use was a high priority when designing this system. This is shown can by the way we implemented the way of being able to select and paste text. A simple click of the “buffer” button after holding down where you would like to paste your previously copied text will allow the user  to quickly perform their tasks. We also made sure that searching, adding, deleting, and editing information was easy and gave clear feedback to the user within the preferences screen.
+
+---
+
 ## Non-Requirements
 
 1. This app should **not** replace the Android system clipboard.
