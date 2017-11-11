@@ -58,6 +58,9 @@ buffer overlay is displayed.
     - Unpin items.
     - Reorder items.
 
+1. The user should be able to select any application installed on phone and deny the clipboard access to that application
+    - Add and remove applications from blacklist. 
+
 ### Clipboard Buffer Overlay
 
 1. The clipboard buffer overlay should not take focus away from the currently running program.
@@ -152,6 +155,7 @@ These features are only to be pursued once all previously stated functionality i
 - The Clipboard Buffer overlay provides list of common strings.
 - Provide additional ordering formats for favorites (i.e. alphabetical).
 - Provide configuration option for removing duplicates.
+- Add Blacklisted App Prefrences that deny the app from accessing the clipboard of different apps.
 
 ---
 
