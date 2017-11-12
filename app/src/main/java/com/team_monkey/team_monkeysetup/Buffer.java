@@ -11,12 +11,28 @@ public class Buffer {
     private ClipboardManager clipboardManager;
     private List<ClipData> clipDataBuffer;
     private int maxSize;
+    private boolean listenerRegistered;
+
+    private ClipboardManager.OnPrimaryClipChangedListener onChangeListener = new ClipboardManager.OnPrimaryClipChangedListener() {
+        @Override
+        public void onPrimaryClipChanged() {
+            ClipData clipData = clipboardManager.getPrimaryClip();
+            if(IsValidClip(clipData)) {
+                    AddClipDataItem(clipData);
+                    android.util.Log.d("ClipAdded", clipData.getItemAt(0).getText().toString());
+                    LogBuffer();
+                }
+                else
+                    android.util.Log.d("InvalidClip","Invalid clip was ignored");
+            }
+    };
 
     Buffer(Context context)
     {
         clipboardManager = (ClipboardManager) context.getSystemService(android.content.Context.CLIPBOARD_SERVICE);
         clipDataBuffer = new LinkedList<ClipData>();
         maxSize = 50;
+        listenerRegistered = false;
 
         AddClipboardEventListener();
     }
@@ -26,27 +42,41 @@ public class Buffer {
         clipboardManager = (ClipboardManager) context.getSystemService(android.content.Context.CLIPBOARD_SERVICE);
         clipDataBuffer = buf;
         maxSize = 50;
+        listenerRegistered = false;
 
         AddClipboardEventListener();
     }
 
-    private void AddClipboardEventListener()
+    public void AddClipboardEventListener()
     {
-        clipboardManager.addPrimaryClipChangedListener(new ClipboardManager.OnPrimaryClipChangedListener() {
-            @Override
-            public void onPrimaryClipChanged() {
-                ClipData clipData = clipboardManager.getPrimaryClip();
-                if(clipData != null) {
-                    if(clipData.getDescription().hasMimeType(ClipDescription.MIMETYPE_TEXT_PLAIN)) {
-                        AddClipDataItem(clipData);
-                        android.util.Log.d("ClipAdded", clipData.getItemAt(0).getText().toString());
-                        LogBuffer();
-                    }
-                }
-                else
-                    android.util.Log.d("NullClip","null clip was ignored");
+        if(!listenerRegistered)
+        {
+            clipboardManager.addPrimaryClipChangedListener(onChangeListener);
+            listenerRegistered = true;
+        }
+    }
+
+    public void RemoveClipboardEventListener()
+    {
+        if(listenerRegistered)
+        {
+            clipboardManager.removePrimaryClipChangedListener(onChangeListener);
+            listenerRegistered = false;
+        }
+    }
+
+    public boolean IsValidClip(ClipData clipData)
+    {
+        if(clipData != null)
+        {
+            ClipDescription clipDescription = clipData.getDescription();
+            if(clipDescription.hasMimeType(ClipDescription.MIMETYPE_TEXT_PLAIN)
+                    && clipDescription.getMimeTypeCount() == 1)
+            {
+                return true;
             }
-        });
+        }
+        return false;
     }
 
     private void AddClipDataItem(ClipData item)
@@ -83,6 +113,8 @@ public class Buffer {
 
     public void LogBuffer()
     {
+        android.util.Log.d("BufferLog", "Buffer size: " + Integer.toString(clipDataBuffer.size()));
+
         ListIterator<ClipData> iClipData = clipDataBuffer.listIterator();
         while(iClipData.hasNext())
         {
