@@ -1,6 +1,7 @@
 package com.team_monkey.team_monkeysetup;
 
 import android.content.ClipData;
+import android.content.ClipDescription;
 import android.content.ClipboardManager;
 import android.content.Context;
 import junit.framework.Assert;
@@ -8,7 +9,7 @@ import java.util.*;
 
 public class Buffer {
     private ClipboardManager clipboardManager;
-    private List<android.content.ClipData> clipDataBuffer;
+    private List<ClipData> clipDataBuffer;
     private int maxSize;
 
     Buffer(Context context)
@@ -17,12 +18,26 @@ public class Buffer {
         clipDataBuffer = new LinkedList<ClipData>();
         maxSize = 50;
 
+        AddClipboardEventListener();
+    }
+
+    Buffer(Context context, LinkedList<ClipData> buf)
+    {
+        clipboardManager = (ClipboardManager) context.getSystemService(android.content.Context.CLIPBOARD_SERVICE);
+        clipDataBuffer = buf;
+        maxSize = 50;
+
+        AddClipboardEventListener();
+    }
+
+    private void AddClipboardEventListener()
+    {
         clipboardManager.addPrimaryClipChangedListener(new ClipboardManager.OnPrimaryClipChangedListener() {
             @Override
             public void onPrimaryClipChanged() {
                 ClipData clipData = clipboardManager.getPrimaryClip();
                 if(clipData != null) {
-                    if(clipData.getDescription().hasMimeType(android.content.ClipDescription.MIMETYPE_TEXT_PLAIN)) {
+                    if(clipData.getDescription().hasMimeType(ClipDescription.MIMETYPE_TEXT_PLAIN)) {
                         AddClipDataItem(clipData);
                         android.util.Log.d("ClipAdded", clipData.getItemAt(0).getText().toString());
                         LogBuffer();
