@@ -1,14 +1,14 @@
-# Evergreen Software Requirements Specification
+# BuffCut Software Requirements Specification
 
 ## Overview
 
-Evergreen is a clipboard manager for Android devices. Evergreen's primary function is to save a history of
-copied texts to be selected and pasted later by the user. There are three main screens to Evergreen: the preferences
+BuffCut is a clipboard manager for Android devices. BuffCut's primary function is to save a history of
+copied texts to be selected and pasted later by the user. There are three main screens to BuffCut: the preferences
 screen, the clipboard buffer overlay, and the status bar icon. Users can use the preferences screen to change different
-settings and personalize their Evergreen experience. The clipboard buffer overlay will be used to paste the text that the
+settings and personalize their BuffCut experience. The clipboard buffer overlay will be used to paste the text that the
 user had previously copied, and the icon is used to access the buffer overlay when the user wants to paste an item in the buffer.
 
-In summary, the goal of Evergreen is to be a sleek, fast, and intuitive clipboard buffer that will better the copy and paste
+In summary, the goal of BuffCut is to be a sleek, fast, and intuitive clipboard buffer that will better the copy and paste
 skills of users around the world.
 
 ---
@@ -24,8 +24,8 @@ that should be run by both the client and the team before it is added to this do
 
 ### Preferences
 
-The preference screen will be accessible through the app icon. It will allow the user to set how many copied items the buffer
-will hold at one time. The preference screen will also allow the user to manage her history and her pinned items.
+The preference screen will be accessible through the app icon. It will be split up into multiple tabs that allow the user to both set and manage a number of different settings. One tab will allow the user to change settings like how many copied items can be in the buffer at one time.
+Another tab will allow the user to manage history and pinned items. Both being able to delete items from the buffer and pin/unpin items. The third tab will allow the user to change which programs use the buffer.
 
 ### Clipboard Buffer Overlay
 
@@ -35,7 +35,7 @@ paste one of his pinned items.
 
 ### Status Icon
 
-The status icon will be displayed in the status bar as long as Evergreen is running. When a user taps the icon, the clipboard
+The status icon will be displayed in the status bar as long as BuffCut is running. When a user taps the icon, the clipboard
 buffer overlay is displayed.
 
 ---
@@ -47,19 +47,26 @@ buffer overlay is displayed.
 1. The user should access the preferences screen through the app icon.
     - Unlike the buffer overlay, the preferences screen should take focus.
 
-1. The user should be able to set the size of the buffer.
+1. The user should see multiple tabs that can be selected.
+    - The Settings tab
+    - The Buffer tab
+    - The Pinned tab
+    - The Blacklist tab
 
-1. The user should be able to manage the buffer history.
+1. The user should be able to set the size of the buffer in the Settings tab.
+
+1. The user should be able to manage the buffer history in the Buffer tab.
     - Remove a specific copied text.
     - Remove all copied text in the buffer.
     - Pin copied text in the history.
 
-1. The user should be able to manage pinned items.
+1. The user should be able to manage pinned items in the Pinned tab.
     - Unpin items.
     - Reorder items.
 
-1. The user should be able to select any application installed on phone and deny the clipboard access to that application
-    - Add and remove applications from blacklist. 
+1. The user should be able to add and remove applications to the blacklist in the blacklist tab.
+    - Add any installed applications to blacklist.
+    - Removed applications from blacklist.
 
 ### Clipboard Buffer Overlay
 
@@ -96,6 +103,7 @@ buffer overlay is displayed.
 
 1. When a user copies text, that text is added to the top of the clipboard buffer.
     - Duplicates are preserved in the order that they are copied.
+    - Should not add to buffer if copied within blacklisted applications.
 
 1. When a user wants to paste text, it should take three touches to get the text out of the clipboard buffer.
 
@@ -155,7 +163,6 @@ These features are only to be pursued once all previously stated functionality i
 - The Clipboard Buffer overlay provides list of common strings.
 - Provide additional ordering formats for favorites (i.e. alphabetical).
 - Provide configuration option for removing duplicates.
-- Add Blacklisted App Prefrences that deny the app from accessing the clipboard of different apps.
 
 ---
 
@@ -166,8 +173,8 @@ These features are only to be pursued once all previously stated functionality i
 Tommy needs to send his mother a sweet new recipe he found online, but he had recently got a new phone and hadn't been
 able to recover his contacts. Thankfully, his sister texted him his mother's email, but now he needs to both copy the email and
 the recipe into his mail app. Thankfully again, instead of tediously manually switching between apps, this smart user had downloaded
-Evergreen, the best clipboard buffer for Android. Now, Tommy can simply copy his mother's address from his messaging app and
-the recipe from his browser. Tommy then switches to his mailing app and taps the Evergreen icon in his status bar, which
+BuffCut, the best clipboard buffer for Android. Now, Tommy can simply copy his mother's address from his messaging app and
+the recipe from his browser. Tommy then switches to his mailing app and taps the BuffCut icon in his status bar, which
 brings up the clipboard buffer. Now Tommy selects his mother's email from the buffer. The buffer disappears and Tommy cleanly
 and efficiently pastes the address in. Again, Tommy presses the icon, but this time he selects the recipe, which he then pastes
 into the body of the email. Mission accomplished, Tommy can now go upstairs and enjoy the homecooked meal that his mother has
@@ -178,11 +185,22 @@ prepared.
 Sally is a very spontaneous person, and because of this, she always forgets her passwords. Sometimes she types Cats123, but
 sometimes she types Cats321, or D0gs423!, or Antidisestablishmentarianism57! Sally writes these passwords down on Notepad++
 sometimes, but it is always a pain to open up a separate program, copy, and paste, each time she needs to check her Facebook.
-Thankfully there is a solution to Sally's problem. Sally can use Evergreen. All Sally has to do is copy her password, then tap
+Thankfully there is a solution to Sally's problem. Sally can use BuffCut. All Sally has to do is copy her password, then tap
 the icon in her status bar and pin her password to the buffer by pressing a cute little star. Now, whenever she needs to log in
 to Facebook, she can simply press the icon, switch to the pinned list, and select her password. Plus, if she ever wants to loan
 her computer to someone else, she can go to the preferences and remove her password from the buffer, effectively keeping her
 Facebook from being hacked.
+
+### Case 3: Roberto
+
+Roberto is a very cautious man. As a cautious man, he really wants all his passwords to be safely encrypted and stored in an awesome
+little program called LastPass. So every time he needs to log in myFitnessPal.com or SororitySquat.edu, he opens up LastPass and copies
+the passwords to his clipboard and then logs in. Roberto is also a smart man. Because he often found himself having to copy the same
+E-mail addresses and names into different E-mails over and over again on his phone, he got BuffCut, the best clipboard buffer this side
+of the Atlantic. However, because he is a cautious man, he doesn't want all his passwords to persist as plaintext in the clipboard buffer.
+Fortunately, BuffCut has just the right feature for Roberto's needs. Roberto can open up the Buffcut app, switch to the blacklist tab, and
+simply add LastPass to the blacklist. Now, every time Roberto copies a password from LastPass, he can rest easy knowing that his information
+is safe.
 
 ---
 
@@ -200,8 +218,6 @@ As for the look and feel of this app, the customer pointed us towards system app
 ---
 
 ## Known Issues/Questions
-
-1. We need to come up with a name for Evergreen. The client had no recommendations other than "be professional."
 
 1. We need to come up with a default buffer size.
 
@@ -232,4 +248,3 @@ Credit: [XKCD](https://imgs.xkcd.com/comics/tasks_2x.png)
 ---
 
 This SRS was painfully made with the blood and tears of Luke Brom.
-
