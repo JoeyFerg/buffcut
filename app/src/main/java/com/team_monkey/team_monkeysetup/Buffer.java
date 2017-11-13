@@ -1,9 +1,6 @@
 package com.team_monkey.team_monkeysetup;
 
-import android.content.ClipData;
-import android.content.ClipDescription;
-import android.content.ClipboardManager;
-import android.content.Context;
+import android.content.*;
 import junit.framework.Assert;
 import java.util.*;
 
@@ -125,8 +122,7 @@ public class Buffer {
     private void TrimBuffer()
     {
         int numToTrim = clipDataBuffer.size() - maxSize;
-        if(numToTrim <= 0)
-            return;
+        if(numToTrim <= 0) { return; }
 
         ListIterator<ClipData> iClipData = clipDataBuffer.listIterator(clipDataBuffer.size());
         while(iClipData.hasPrevious() && numToTrim > 0)
@@ -135,6 +131,19 @@ public class Buffer {
             iClipData.remove();
             numToTrim--;
         }
+    }
+
+    public LinkedList<String> BufferToString()
+    {
+        LinkedList<String> stringList = new LinkedList<String>();
+
+        ListIterator<ClipData> iClipData = clipDataBuffer.listIterator();
+        while(iClipData.hasNext())
+        {
+            stringList.addLast(iClipData.next().getItemAt(0).getText().toString());
+        }
+
+        return stringList;
     }
 
     private boolean IsValidIndex(int index)
