@@ -137,10 +137,10 @@ public class Buffer {
     {
         LinkedList<String> stringList = new LinkedList<String>();
 
-        ListIterator<ClipData> iClipData = clipDataBuffer.listIterator();
+        ListIterator<String> iClipData = clipDataBuffer.listIterator();
         while(iClipData.hasNext())
         {
-            stringList.addLast(iClipData.next().getItemAt(0).getText().toString());
+            stringList.addLast(iClipData.next());
         }
 
         return stringList;
