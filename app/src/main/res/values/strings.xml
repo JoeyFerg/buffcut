@@ -1,3 +1,27 @@
 <resources>
-    <string name="app_name">Team-Monkey setup</string>
+    <string name="app_name">BuffCut</string>
+    <string name="action_settings">Settings</string>
+    <string name="action_clipboard">Clipboard</string>
+    <string name="section_format">Hello World from section: %1$d</string>
+    <string name="title_activity_settings">Settings</string>
+
+    <!-- Strings related to Settings -->
+
+    <!-- Example General settings -->
+    <string name="pref_storage_limit">Storage Limit</string>
+
+    <string name="manage_tabs">Manage Tabs</string>
+    <string name="blacklist_apps">Blacklist</string>
+    <string name="about_us">About Us</string>
+
+
+    <!-- Example settings for Notifications -->
+    <string name="pref_header_notifications">Notifications</string>
+
+    <string name="pref_title_new_message_notifications">New message notifications</string>
+
+    <string name="pref_title_ringtone">Ringtone</string>
+    <string name="pref_ringtone_silent">Silent</string>
+
+    <string name="pref_title_vibrate">Vibrate</string>
 </resources>
