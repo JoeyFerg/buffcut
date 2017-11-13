@@ -6,7 +6,7 @@ import java.util.*;
 
 public class Buffer {
     private ClipboardManager clipboardManager;
-    private List<ClipData> clipDataBuffer;
+    private List<String> clipDataBuffer;
     private int maxSize;
     private boolean listenerRegistered;
 
@@ -15,7 +15,7 @@ public class Buffer {
         public void onPrimaryClipChanged() {
             ClipData clipData = clipboardManager.getPrimaryClip();
             if(IsValidClip(clipData)) {
-                    AddClipDataItem(clipData);
+                    AddClipDataItem(clipData.getItemAt(0).getText().toString());
                     android.util.Log.d("ClipAdded", clipData.getItemAt(0).getText().toString());
                     LogBuffer();
                 }
@@ -27,14 +27,14 @@ public class Buffer {
     Buffer(Context context)
     {
         clipboardManager = (ClipboardManager) context.getSystemService(android.content.Context.CLIPBOARD_SERVICE);
-        clipDataBuffer = new LinkedList<ClipData>();
+        clipDataBuffer = new LinkedList<>();
         maxSize = 50;
         listenerRegistered = false;
 
         AddClipboardEventListener();
     }
 
-    Buffer(Context context, LinkedList<ClipData> buf)
+    Buffer(Context context, LinkedList<String> buf)
     {
         clipboardManager = (ClipboardManager) context.getSystemService(android.content.Context.CLIPBOARD_SERVICE);
         clipDataBuffer = buf;
@@ -76,7 +76,7 @@ public class Buffer {
         return false;
     }
 
-    private void AddClipDataItem(ClipData item)
+    private void AddClipDataItem(String item)
     {
         clipDataBuffer.add(0, item);
         TrimBuffer();
@@ -90,7 +90,7 @@ public class Buffer {
         TrimBuffer();
     }
 
-    public List<ClipData> Data()
+    public List<String> Data()
     {
         return clipDataBuffer;
     }
@@ -99,7 +99,7 @@ public class Buffer {
     {
         Assert.assertTrue("INVALID BUFFER INDEX!", IsValidIndex(index));
 
-        clipboardManager.setPrimaryClip(clipDataBuffer.get(index));
+        clipboardManager.setPrimaryClip(ClipData.newPlainText("text", clipDataBuffer.get(index)));
     }
 
     public void ApplyTestClip(String message)
@@ -112,10 +112,10 @@ public class Buffer {
     {
         android.util.Log.d("BufferLog", "Buffer size: " + Integer.toString(clipDataBuffer.size()));
 
-        ListIterator<ClipData> iClipData = clipDataBuffer.listIterator();
+        ListIterator<String> iClipData = clipDataBuffer.listIterator();
         while(iClipData.hasNext())
         {
-            android.util.Log.d("BufferLog", iClipData.next().getItemAt(0).getText().toString());
+            android.util.Log.d("BufferLog", iClipData.next());
         }
     }
 
@@ -124,7 +124,7 @@ public class Buffer {
         int numToTrim = clipDataBuffer.size() - maxSize;
         if(numToTrim <= 0) { return; }
 
-        ListIterator<ClipData> iClipData = clipDataBuffer.listIterator(clipDataBuffer.size());
+        ListIterator<String> iClipData = clipDataBuffer.listIterator(clipDataBuffer.size());
         while(iClipData.hasPrevious() && numToTrim > 0)
         {
             iClipData.previous();
