@@ -26,7 +26,7 @@
         android:layout_marginStart="133dp"
         android:layout_marginLeft="133dp"
         android:layout_marginTop="102dp"
-        android:onClick="sendNotification"
+        android:onClick="sendNotifications"
         android:text="Notification"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
