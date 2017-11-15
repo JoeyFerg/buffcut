@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory android:title="General">
+
+    </PreferenceCategory>
+    <ListPreference
+        android:defaultValue="1"
+        android:key="storage_limit"
+        android:entries="@array/storage_limit_preferences"
+        android:entryValues="@array/storage_limit_preferences_values"
+        android:summary="Customize the number of clippings you can store"
+        android:title="Storage Limit" />
+    <Preference
+        android:defaultValue="No Limit"
+        android:key="blacklist"
+        android:summary="Disable BuffCut's access to certain app's clipboards"
+        android:title="Blacklist" />
+    <Preference
+        android:defaultValue="1"
+        android:key="manage_tabs"
+        android:summary="Rename, edit, remove clipboard tabs"
+        android:title="Manage Tabs" />
+    <PreferenceCategory android:title="Notifications">
+
+    </PreferenceCategory>
+    <SwitchPreference
+        android:defaultValue="true"
+        android:key="notifications"
+        android:summary="Turn on/off notifications"
+        android:title="Notifications" />
+    <PreferenceCategory android:title="About Us">
+
+    </PreferenceCategory>
+    <Preference
+        android:defaultValue="1"
+        android:key="about_us"
+        android:summary="Learn more about BuffCut"
+        android:title="About Us" />
+</PreferenceScreen>
