@@ -14,20 +14,21 @@ public class Buffer {
         @Override
         public void onPrimaryClipChanged() {
             ClipData clipData = clipboardManager.getPrimaryClip();
-            if(IsValidClip(clipData)) {
-                    AddClipDataItem(clipData.getItemAt(0).getText().toString());
-                    android.util.Log.d("ClipAdded", clipData.getItemAt(0).getText().toString());
+            if(IsValidClip(clipData))
+            {
+                    AddItem(ExtractTextFromClipData(clipData));
+                    android.util.Log.d("====ClipAdded====", ExtractTextFromClipData(clipData));
                     LogBuffer();
-                }
-                else
-                    android.util.Log.d("InvalidClip","Invalid clip was ignored");
+            }
+            else
+                android.util.Log.d("InvalidClip","Invalid clip was ignored");
             }
     };
 
     Buffer(Context context)
     {
         clipboardManager = (ClipboardManager) context.getSystemService(android.content.Context.CLIPBOARD_SERVICE);
-        clipDataBuffer = new LinkedList<>();
+        clipDataBuffer = new LinkedList<String>();
         maxSize = 50;
         listenerRegistered = false;
 
@@ -67,8 +68,7 @@ public class Buffer {
         if(clipData != null)
         {
             ClipDescription clipDescription = clipData.getDescription();
-            if(clipDescription.hasMimeType(ClipDescription.MIMETYPE_TEXT_PLAIN)
-                    && clipDescription.getMimeTypeCount() == 1)
+            if(clipDescription.hasMimeType(ClipDescription.MIMETYPE_TEXT_PLAIN))
             {
                 return true;
             }
@@ -76,10 +76,40 @@ public class Buffer {
         return false;
     }
 
-    private void AddClipDataItem(String item)
+    private String ExtractTextFromClipData(ClipData clipData)
     {
+        int numItems = clipData.getItemCount();
+        String extractedText = "";
+        for(int i = 0; i < numItems; i++)
+        {
+            CharSequence charSeq = clipData.getItemAt(i).getText();
+            if(charSeq != null)
+                extractedText += charSeq.toString();
+        }
+        return extractedText;
+    }
+
+    private void AddItem(String item)
+    {
+        RemoveItem(item);
         clipDataBuffer.add(0, item);
         TrimBuffer();
+    }
+
+    private int RemoveItem(String item)
+    {
+        int numRemoved = 0;
+
+        ListIterator<String> iClipData = clipDataBuffer.listIterator();
+        while(iClipData.hasNext())
+        {
+            if(iClipData.next().equals(item)) {
+                iClipData.previous();
+                iClipData.remove();
+                numRemoved++;
+            }
+        }
+        return numRemoved;
     }
 
     public void SetMaxSize(int maxSize)
@@ -122,7 +152,8 @@ public class Buffer {
     private void TrimBuffer()
     {
         int numToTrim = clipDataBuffer.size() - maxSize;
-        if(numToTrim <= 0) { return; }
+        if(numToTrim <= 0)
+            return;
 
         ListIterator<String> iClipData = clipDataBuffer.listIterator(clipDataBuffer.size());
         while(iClipData.hasPrevious() && numToTrim > 0)
@@ -131,19 +162,6 @@ public class Buffer {
             iClipData.remove();
             numToTrim--;
         }
-    }
-
-    public LinkedList<String> BufferToString()
-    {
-        LinkedList<String> stringList = new LinkedList<String>();
-
-        ListIterator<String> iClipData = clipDataBuffer.listIterator();
-        while(iClipData.hasNext())
-        {
-            stringList.addLast(iClipData.next());
-        }
-
-        return stringList;
     }
 
     private boolean IsValidIndex(int index)
