@@ -7,6 +7,7 @@ import java.util.*;
 public class Buffer {
     private ClipboardManager clipboardManager;
     private List<String> clipDataBuffer;
+    private List<String> favBuffer;
     private int maxSize;
     private boolean listenerRegistered;
 
@@ -16,12 +17,17 @@ public class Buffer {
             ClipData clipData = clipboardManager.getPrimaryClip();
             if(IsValidClip(clipData))
             {
-                    AddItem(ExtractTextFromClipData(clipData));
-                    android.util.Log.d("====ClipAdded====", ExtractTextFromClipData(clipData));
-                    LogBuffer();
+                    String clipText = ExtractTextFromClipData(clipData);
+                    if(clipText.length() > 0) {
+                        AddItem(clipText);
+                        android.util.Log.d("====ClipAdded====", ExtractTextFromClipData(clipData));
+                        LogBuffer();
+                    }
+                    else
+                        android.util.Log.d("====ClipNotAdded====", "Empty string ignored");
             }
             else
-                android.util.Log.d("InvalidClip","Invalid clip was ignored");
+                android.util.Log.d("InvalidClip","Invalid clip ignored");
             }
     };
 
@@ -29,6 +35,7 @@ public class Buffer {
     {
         clipboardManager = (ClipboardManager) context.getSystemService(android.content.Context.CLIPBOARD_SERVICE);
         clipDataBuffer = new LinkedList<String>();
+        favBuffer = new LinkedList<String>();
         maxSize = 50;
         listenerRegistered = false;
 
@@ -39,6 +46,18 @@ public class Buffer {
     {
         clipboardManager = (ClipboardManager) context.getSystemService(android.content.Context.CLIPBOARD_SERVICE);
         clipDataBuffer = buf;
+        favBuffer = new LinkedList<String>();
+        maxSize = 50;
+        listenerRegistered = false;
+
+        AddClipboardEventListener();
+    }
+
+    Buffer(Context context, LinkedList<String> buf, LinkedList<String> favBuf)
+    {
+        clipboardManager = (ClipboardManager) context.getSystemService(android.content.Context.CLIPBOARD_SERVICE);
+        clipDataBuffer = buf;
+        favBuffer = favBuf;
         maxSize = 50;
         listenerRegistered = false;
 
@@ -91,25 +110,9 @@ public class Buffer {
 
     private void AddItem(String item)
     {
-        RemoveItem(item);
+        RemoveItemFromList(clipDataBuffer, item);
         clipDataBuffer.add(0, item);
         TrimBuffer();
-    }
-
-    private int RemoveItem(String item)
-    {
-        int numRemoved = 0;
-
-        ListIterator<String> iClipData = clipDataBuffer.listIterator();
-        while(iClipData.hasNext())
-        {
-            if(iClipData.next().equals(item)) {
-                iClipData.previous();
-                iClipData.remove();
-                numRemoved++;
-            }
-        }
-        return numRemoved;
     }
 
     public void SetMaxSize(int maxSize)
@@ -120,16 +123,35 @@ public class Buffer {
         TrimBuffer();
     }
 
+    public void AddToFavorites(int index)
+    {
+        String item = clipDataBuffer.get(index);
+        RemoveItemFromList(favBuffer, item);
+        favBuffer.add(item);
+    }
+
     public List<String> Data()
     {
         return clipDataBuffer;
     }
 
+    public List<String> DataFavorites()
+    {
+        return favBuffer;
+    }
+
     public void FillClipboardWithElementAtIndex(int index)
     {
-        Assert.assertTrue("INVALID BUFFER INDEX!", IsValidIndex(index));
+        Assert.assertTrue("INVALID BUFFER INDEX!", IsValidIndex(clipDataBuffer, index));
 
         clipboardManager.setPrimaryClip(ClipData.newPlainText("text", clipDataBuffer.get(index)));
+    }
+
+    public void FillClipboardWithFavoritesElementAtIndex(int index)
+    {
+        Assert.assertTrue("INVALID BUFFER INDEX!", IsValidIndex(favBuffer, index));
+
+        clipboardManager.setPrimaryClip(ClipData.newPlainText("text", favBuffer.get(index)));
     }
 
     public void ApplyTestClip(String message)
@@ -141,11 +163,17 @@ public class Buffer {
     public void LogBuffer()
     {
         android.util.Log.d("BufferLog", "Buffer size: " + Integer.toString(clipDataBuffer.size()));
-
         ListIterator<String> iClipData = clipDataBuffer.listIterator();
         while(iClipData.hasNext())
         {
             android.util.Log.d("BufferLog", iClipData.next());
+        }
+
+        android.util.Log.d("BufferLog", "Favorites Buffer size: " + Integer.toString(favBuffer.size()));
+        ListIterator<String> iFav = favBuffer.listIterator();
+        while(iFav.hasNext())
+        {
+            android.util.Log.d("BufferLog", iFav.next());
         }
     }
 
@@ -164,8 +192,24 @@ public class Buffer {
         }
     }
 
-    private boolean IsValidIndex(int index)
+    private static boolean IsValidIndex(List<String> list, int index)
     {
-        return index >= 0 && index < clipDataBuffer.size();
+        return index >= 0 && index < list.size();
+    }
+
+    private static int RemoveItemFromList(List<String> list, String item)
+    {
+        int numRemoved = 0;
+
+        ListIterator<String> iClipData = list.listIterator();
+        while(iClipData.hasNext())
+        {
+            if(iClipData.next().equals(item)) {
+                iClipData.previous();
+                iClipData.remove();
+                numRemoved++;
+            }
+        }
+        return numRemoved;
     }
 }
