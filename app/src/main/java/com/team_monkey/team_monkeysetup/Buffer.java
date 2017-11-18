@@ -4,6 +4,11 @@ import android.content.ClipData;
 import android.content.ClipDescription;
 import android.content.ClipboardManager;
 import android.content.Context;
+import android.content.SharedPreferences;
+
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
 import junit.framework.Assert;
 import java.util.*;
 
@@ -12,6 +17,10 @@ public class Buffer {
     private List<String> clipDataBuffer;
     private int maxSize;
     private boolean listenerRegistered;
+    private SharedPreferences preferences;
+    private Gson gson;
+    private String PREF_NAME = "BuffClip";
+    private String BUFFER = "Buffer";
 
     private ClipboardManager.OnPrimaryClipChangedListener onChangeListener = new ClipboardManager.OnPrimaryClipChangedListener() {
         @Override
@@ -19,6 +28,7 @@ public class Buffer {
             ClipData clipData = clipboardManager.getPrimaryClip();
             if(IsValidClip(clipData)) {
                     AddClipDataItem(clipData.getItemAt(0).getText().toString());
+                    saveBuffer();
                     android.util.Log.d("ClipAdded", clipData.getItemAt(0).getText().toString());
                     LogBuffer();
                 }
@@ -33,6 +43,9 @@ public class Buffer {
         clipDataBuffer = new LinkedList<>();
         maxSize = 50;
         listenerRegistered = false;
+
+        preferences = context.getSharedPreferences(PREF_NAME, 0);
+        gson = new Gson();
 
         AddClipboardEventListener();
     }
@@ -140,5 +153,24 @@ public class Buffer {
     private boolean IsValidIndex(int index)
     {
         return index >= 0 && index < clipDataBuffer.size();
+    }
+
+    public void loadBuffer()
+    {
+        String bufferString = preferences.getString(BUFFER, "[]");
+        android.util.Log.d("bufferstring", bufferString);
+        if (bufferString != "[]") {
+            LinkedList<String> bufferList = new LinkedList<>((ArrayList<String>)gson.fromJson(bufferString, new TypeToken<List<String>>(){}.getType()));
+            clipDataBuffer = bufferList;
+        }
+    }
+
+    public void saveBuffer()
+    {
+        String BufferString;
+        BufferString = gson.toJson(clipDataBuffer);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString(BUFFER, BufferString);
+        editor.commit();
     }
 }
