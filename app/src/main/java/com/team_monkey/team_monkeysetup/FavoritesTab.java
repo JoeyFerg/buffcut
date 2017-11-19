@@ -2,7 +2,9 @@ package com.team_monkey.team_monkeysetup;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.view.*;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 public class FavoritesTab extends Fragment {
     @Override
