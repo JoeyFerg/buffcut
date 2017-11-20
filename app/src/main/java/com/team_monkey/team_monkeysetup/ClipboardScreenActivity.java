@@ -38,9 +38,6 @@ public class ClipboardScreenActivity extends AppCompatActivity {
     String PREF_NAME = "BuffClip";
     String BUFFER = "Buffer";
 
-    private ListView clipboardList;
-    private ListView favoritesList;
-
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
      * fragments for each of the sections. We use a
@@ -79,23 +76,15 @@ public class ClipboardScreenActivity extends AppCompatActivity {
         mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mViewPager));
 
-        clipboardList = (ListView) findViewById(R.id.clipboard_list);
-        favoritesList = (ListView) findViewById(R.id.favorites_list);
-
-        List<String> clipboard = buffer.Data();
-        List<String> favorites = buffer.Data();
-
-
-//        String[] clipboardItems = new String[buffer.Data().size()];
-//        String[] clipboardItems = new String[buffer.Data().size()];
+//        // Link clipboard and favorites
+//        ListView clipboardList = findViewById(R.id.clipboard_list);
+//        ListView favoritesList = findViewById(R.id.favorites_list);
 //
-//
-//        for(int i = 0; i < clipboard.size(); i++){
-//            listItems[i] = recipe.title;
-//        }
-//
-//        ArrayAdapter ClipboardAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, clipboardItems);
+//        ArrayAdapter ClipboardAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, buffer.Data().toArray());
 //        clipboardList.setAdapter(ClipboardAdapter);
+//
+//        ArrayAdapter FavoritesAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, buffer.DataFavorites().toArray());
+//        favoritesList.setAdapter(FavoritesAdapter);
     }
 
     protected void onResume() {
