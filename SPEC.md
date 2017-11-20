@@ -246,13 +246,13 @@ As for the look and feel of this app, the customer pointed us towards system app
 
 ## Version Control Standards
 
-All code at the end of each sprint should end up in the Master branch. During sprints, all code should be in the develop branch. This means that when a sprint is done, develop should be reviewed for errors and then merged into Master.
+All code at the end of each sprint should end up in the Master branch. During sprints, all code should be in the master branch.
 
-When you start work on a feature you will create a branch off of develop named after the feature that you are going to work on. For example, if your feature is to add the Clipboard Buffer Overlay, then you should name your branch "BufferOverlay" or some variation thereof. Once the branch is checked out you can do all your work in that branch. When you are done, you should create a merge request into develop on GitLab. Do NOT create a merge request until you can demonstrate a working version of your requirement, develop should NEVER contain known broken code.
+When you start work on a feature you will create a branch off of master (NOTE: you should only ever be ONE branch away from master, never more) named after the feature that you are going to work on. For example, if your feature is to add the Clipboard Buffer Overlay, then you should name your branch "BufferOverlay" or some variation thereof. Once the branch is checked out you can do all your work in that branch. When you are done, you should create a merge request into master on GitLab. Do NOT create a merge request until you can demonstrate a working version of your requirement, master should NEVER contain known broken code.
 
 Commits should be descriptive of the work done and should be written as present tense verbs. As in the previous example, if you commit code that adds the Clipboard Buffer Overlay the commit message should be "Add Clipboard Buffer Overlay" or some variation thereof. You should commit and push code often, because you might not be the only member of the team working on a feature. Also, because all team members will be working in the repository, always make sure to pull changes before starting work on any branch or creating any new branch.
 
-When you see a merge request, you should review the changes to make sure that the code does what it is supposed to do with no errors, and doesn't accidentally break code that you or another team member has written. Once done reviewing, give the request a thumbs up. When a merge request has three thumbs up (including the person who created it), then it can be merged into develop.
+When you see a merge request, you should review the changes to make sure that the code does what it is supposed to do with no errors, and doesn't accidentally break code that you or another team member has written. Once done reviewing, give the request a thumbs up. When a merge request has three thumbs up (including the person who created it), then it can be merged into master.
 
 ---
 
