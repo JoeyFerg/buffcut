@@ -1,5 +1,7 @@
 package com.team_monkey.team_monkeysetup;
 
+import android.app.ActivityManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.design.widget.TabLayout;
