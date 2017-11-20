@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:sample="http://schemas.android.com/apk/res-auto">
+    <PreferenceCategory android:title="General">
+
+    </PreferenceCategory>
+    <com.pavelsikun.seekbarpreference.SeekBarPreference
+        android:key="your_pref_key"
+        android:title="Storage Limit"
+        android:summary="Limit number of clippings stored in clipboard"
+        android:enabled="true"
+        android:defaultValue="25"
+        sample:msbp_minValue="5"
+        sample:msbp_maxValue="50"
+        sample:msbp_interval="5"
+        sample:msbp_measurementUnit="clippings"
+        sample:msbp_dialogEnabled="true" />
+
+    <Preference
+        android:defaultValue="No Limit"
+        android:key="blacklist"
+        android:summary="Disable BuffCut's access to certain app's clipboards"
+        android:title="Blacklist" />
+    <Preference
+        android:defaultValue="1"
+        android:key="manage_tabs"
+        android:summary="Rename, edit, remove clipboard tabs"
+        android:title="Manage Tabs" />
+    <PreferenceCategory android:title="Notifications">
+
+    </PreferenceCategory>
+    <SwitchPreference
+        android:defaultValue="true"
+        android:key="notifications"
+        android:summary="Turn on/off notifications"
+        android:title="Notifications" />
+    <PreferenceCategory android:title="About Us">
+
+    </PreferenceCategory>
+    <Preference
+        android:defaultValue="1"
+        android:key="about_us"
+        android:summary="Learn more about BuffCut"
+        android:title="About Us" />
+</PreferenceScreen>
