@@ -29,12 +29,8 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class ClipboardScreenActivity extends AppCompatActivity {
-    Buffer buffer;
 
     SharedPreferences preferences;
-    Gson gson;
-    String PREF_NAME = "BuffClip";
-    String BUFFER = "Buffer";
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -55,9 +51,11 @@ public class ClipboardScreenActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.clipboard_screen);
-        preferences = getSharedPreferences(PREF_NAME, 0);
-        gson = new Gson();
-        loadBuffer();
+
+        if(!isBufferServiceRunning(BufferService.class)) {
+            Intent intent = new Intent(this, BufferService.class);
+            startService(intent);
+        }
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -85,35 +83,21 @@ public class ClipboardScreenActivity extends AppCompatActivity {
 
     protected void onStop() {
         super.onStop();
-        saveBuffer();
     }
 
     protected void onDestroy() {
         super.onDestroy();
-        buffer.RemoveClipboardEventListener();
-        saveBuffer();
     }
 
-    private void loadBuffer() {
-        String bufferString = preferences.getString(BUFFER, "[]");
-        android.util.Log.d("bufferstring", bufferString);
-        if (bufferString != "[]") {
-            LinkedList<String> bufferList = new LinkedList<>((ArrayList<String>) gson.fromJson(bufferString, new TypeToken<List<String>>() {
-            }.getType()));
-            buffer = new Buffer(this, bufferList);
-        } else {
-            buffer = new Buffer(this);
+    private boolean isBufferServiceRunning(Class<?> serviceClass) {
+        ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
+            if (serviceClass.getName().equals(service.service.getClassName())) {
+                return true;
+            }
         }
+        return false;
     }
-
-    private void saveBuffer() {
-        String BufferString;
-        BufferString = gson.toJson(buffer.Data());
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.putString(BUFFER, BufferString);
-        editor.commit();
-    }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
