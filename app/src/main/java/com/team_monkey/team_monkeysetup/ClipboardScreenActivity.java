@@ -19,6 +19,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
@@ -35,6 +37,9 @@ public class ClipboardScreenActivity extends AppCompatActivity {
     Gson gson;
     String PREF_NAME = "BuffClip";
     String BUFFER = "Buffer";
+
+    private ListView clipboardList;
+    private ListView favoritesList;
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -73,6 +78,24 @@ public class ClipboardScreenActivity extends AppCompatActivity {
 
         mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mViewPager));
+
+        clipboardList = (ListView) findViewById(R.id.clipboard_list);
+        favoritesList = (ListView) findViewById(R.id.favorites_list);
+
+        List<String> clipboard = buffer.Data();
+        List<String> favorites = buffer.Data();
+
+
+//        String[] clipboardItems = new String[buffer.Data().size()];
+//        String[] clipboardItems = new String[buffer.Data().size()];
+//
+//
+//        for(int i = 0; i < clipboard.size(); i++){
+//            listItems[i] = recipe.title;
+//        }
+//
+//        ArrayAdapter ClipboardAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, clipboardItems);
+//        clipboardList.setAdapter(ClipboardAdapter);
     }
 
     protected void onResume() {
