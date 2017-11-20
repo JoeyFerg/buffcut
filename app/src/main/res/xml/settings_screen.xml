@@ -1,15 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:sample="http://schemas.android.com/apk/res-auto">
     <PreferenceCategory android:title="General">
 
     </PreferenceCategory>
-    <ListPreference
-        android:defaultValue="1"
-        android:key="storage_limit"
-        android:entries="@array/storage_limit_preferences"
-        android:entryValues="@array/storage_limit_preferences_values"
-        android:summary="Customize the number of clippings you can store"
-        android:title="Storage Limit" />
+    <com.pavelsikun.seekbarpreference.SeekBarPreference
+        android:key="your_pref_key"
+        android:title="Storage Limit"
+        android:summary="Limit number of clippings stored in clipboard"
+        android:enabled="true"
+        android:defaultValue="25"
+        sample:msbp_minValue="5"
+        sample:msbp_maxValue="50"
+        sample:msbp_interval="5"
+        sample:msbp_measurementUnit="clippings"
+        sample:msbp_dialogEnabled="true" />
+
     <Preference
         android:defaultValue="No Limit"
         android:key="blacklist"
