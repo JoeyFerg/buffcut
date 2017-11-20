@@ -17,6 +17,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <service
+            android:name=".BufferService"
+            android:enabled="true"
+            android:exported="true"></service>
         <activity
             android:name=".SettingsActivity"
             android:label="@string/title_activity_settings"
