@@ -5,7 +5,6 @@
     <application
         android:allowBackup="true"
         android:icon="@mipmap/scissor_icon"
-        android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
@@ -19,7 +18,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".OpenOverlay" />
+        <activity android:name=".OpenOverlay"
+            android:theme="@android:style/Theme.Dialog"/>
         <service
             android:name=".BufferService"
             android:enabled="true"
