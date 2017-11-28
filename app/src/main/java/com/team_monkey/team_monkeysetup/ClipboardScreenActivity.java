@@ -7,13 +7,13 @@ import android.content.SharedPreferences;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -22,6 +22,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import android.widget.ArrayAdapter;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -33,23 +34,14 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class ClipboardScreenActivity extends AppCompatActivity {
-
+    Buffer buffer;
     SharedPreferences preferences;
 
-    /**
-     * The {@link android.support.v4.view.PagerAdapter} that will provide
-     * fragments for each of the sections. We use a
-     * {@link FragmentPagerAdapter} derivative, which will keep every
-     * loaded fragment in memory. If this becomes too memory intensive, it
-     * may be best to switch to a
-     * {@link android.support.v4.app.FragmentStatePagerAdapter}.
-     */
     private SectionsPagerAdapter mSectionsPagerAdapter;
+    private ListAdapter mClipboardListAdapter;
 
-    /**
-     * The {@link ViewPager} that will host the section contents.
-     */
     private ViewPager mViewPager;
+    private ListView mClipboardList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,13 +68,15 @@ public class ClipboardScreenActivity extends AppCompatActivity {
         mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mViewPager));
 
-//        // Link clipboard and favorites
-//        ListView clipboardList = findViewById(R.id.clipboard_list);
-//        ListView favoritesList = findViewById(R.id.favorites_list);
-//
-//        ArrayAdapter ClipboardAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, buffer.Data().toArray());
-//        clipboardList.setAdapter(ClipboardAdapter);
-//
+        setContentView(R.layout.fragment_clipboard_tab);
+
+        mClipboardListAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, buffer.Data());
+
+        mClipboardList = (ListView) findViewById(R.id.clip_container);
+        mClipboardList.setAdapter(mClipboardListAdapter);
+
+//        ListView favoritesList = findView ById(R.id.favorites_list);
+
 //        ArrayAdapter FavoritesAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, buffer.DataFavorites().toArray());
 //        favoritesList.setAdapter(FavoritesAdapter);
     }
@@ -139,10 +133,6 @@ public class ClipboardScreenActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    /**
-     * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
-     * one of the sections/tabs/pages.
-     */
     public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
         public SectionsPagerAdapter(FragmentManager fm) {
