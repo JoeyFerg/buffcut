@@ -5,6 +5,9 @@
     <string name="tab_text_2">Favorites</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_settings">Settings</string>
+    <string name="one">One</string>
+    <string name="two">Two</string>
+    <string name="three">Three</string>
 
     <!-- Strings related to Settings -->
 
@@ -22,6 +25,4 @@
         <item>No Limit</item>
     </string-array>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
