@@ -10,8 +10,9 @@ import android.view.ViewGroup;
 public class ClipboardTab extends Fragment {
     public ClipboardTab() {}
 
-    public static ClipboardTab newInstance(String param1, String param2) {
+    public static ClipboardTab newInstance() {
         ClipboardTab fragment = new ClipboardTab();
+
         return fragment;
     }
 

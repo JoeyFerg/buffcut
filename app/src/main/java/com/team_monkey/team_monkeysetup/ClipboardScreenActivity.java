@@ -60,30 +60,27 @@ public class ClipboardScreenActivity extends AppCompatActivity {
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        // Create the adapter that will return a fragment for each of the three
-        // primary sections of the activity.
+
+        // Create the adapter that will return a fragment for each of the three primary sections of the activity.
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
+//        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
 
-        mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
-        tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mViewPager));
+//        mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+//        tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mViewPager));
 
-        setContentView(R.layout.fragment_clipboard_tab);
 
-        mClipboardListAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, buffer.Data());
 
-        mClipboardList = (ListView) findViewById(R.id.clip_container);
-        mClipboardList.setAdapter(mClipboardListAdapter);
+//        setContentView(R.layout.fragment_clipboard_tab);
 
-//        ListView favoritesList = findView ById(R.id.favorites_list);
-
-//        ArrayAdapter FavoritesAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, buffer.DataFavorites().toArray());
-//        favoritesList.setAdapter(FavoritesAdapter);
+//        mClipboardListAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, buffer.Data());
+//
+//        mClipboardList = (ListView) findViewById(R.id.clip_container);
+//        mClipboardList.setAdapter(mClipboardListAdapter);
     }
 
     protected void onResume() {
