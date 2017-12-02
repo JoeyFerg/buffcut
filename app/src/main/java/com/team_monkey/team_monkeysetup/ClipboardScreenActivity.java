@@ -7,7 +7,9 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.content.*;
 import android.os.Build;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -26,8 +28,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
-import android.widget.TextView;
+import android.os.IBinder;
 
+import android.widget.TextView;
+import android.util.Log;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -38,7 +42,10 @@ import java.util.List;
 public class ClipboardScreenActivity extends AppCompatActivity {
 
     SharedPreferences preferences;
-
+    private Buffer buffer;
+    private BufferService bufferService;
+    private Intent serviceIntent;
+    private boolean bufferBound = false;
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
      * fragments for each of the sections. We use a
@@ -59,9 +66,9 @@ public class ClipboardScreenActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.clipboard_screen);
 
+        serviceIntent = new Intent(this, BufferService.class);
         if(!isBufferServiceRunning(BufferService.class)) {
-            Intent intent = new Intent(this, BufferService.class);
-            startService(intent);
+            startService(serviceIntent);
         }
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -82,10 +89,12 @@ public class ClipboardScreenActivity extends AppCompatActivity {
 
     protected void onResume() {
         super.onResume();
+        bindService(serviceIntent, serviceConnection, Context.BIND_AUTO_CREATE);
     }
 
     protected void onPause() {
         super.onPause();
+        unbindService(serviceConnection);
     }
 
     protected void onStop() {
@@ -105,6 +114,27 @@ public class ClipboardScreenActivity extends AppCompatActivity {
         }
         return false;
     }
+
+    /** Defines callbacks for service binding, passed to bindService() */
+    private ServiceConnection serviceConnection = new ServiceConnection() {
+
+        @Override
+        public void onServiceConnected(ComponentName className,
+                                       IBinder service) {
+            // We've bound to LocalService, cast the IBinder and get LocalService instance
+            BufferService.BufferBinder binder = (BufferService.BufferBinder) service;
+            bufferService = binder.getService();
+            buffer = new Buffer(ClipboardScreenActivity.this, bufferService.getBufferData());
+            android.util.Log.d("ServiceConnection", "Buffer Log: ");
+            buffer.LogBuffer();
+            bufferBound = true;
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName arg0) {
+            bufferBound = false;
+        }
+    };
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
