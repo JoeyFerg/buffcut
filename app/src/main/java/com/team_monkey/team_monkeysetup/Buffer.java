@@ -15,8 +15,8 @@ import java.util.*;
 
 public class Buffer {
     private ClipboardManager clipboardManager;
-    private List<String> clipDataBuffer;
-    private List<String> favBuffer;
+    private LinkedList<String> clipDataBuffer;
+    private LinkedList<String> favBuffer;
     private int maxSize;
     private boolean listenerRegistered;
     private SharedPreferences preferences;
@@ -66,6 +66,9 @@ public class Buffer {
         maxSize = 50;
         listenerRegistered = false;
 
+        preferences = context.getSharedPreferences(PREF_NAME, 0);
+        gson = new Gson();
+
         AddClipboardEventListener();
     }
 
@@ -76,6 +79,9 @@ public class Buffer {
         favBuffer = favBuf;
         maxSize = 50;
         listenerRegistered = false;
+
+        preferences = context.getSharedPreferences(PREF_NAME, 0);
+        gson = new Gson();
 
         AddClipboardEventListener();
     }
@@ -129,6 +135,7 @@ public class Buffer {
         RemoveItemFromList(clipDataBuffer, item);
         clipDataBuffer.add(0, item);
         TrimBuffer();
+        SaveBuffer();
     }
 
     public void SetMaxSize(int maxSize)
@@ -146,12 +153,12 @@ public class Buffer {
         favBuffer.add(item);
     }
 
-    public List<String> Data()
+    public LinkedList<String> Data()
     {
         return clipDataBuffer;
     }
 
-    public List<String> DataFavorites()
+    public LinkedList<String> DataFavorites()
     {
         return favBuffer;
     }
@@ -229,7 +236,7 @@ public class Buffer {
         return numRemoved;
     }
 
-    public void loadBuffer()
+    public void LoadBuffer()
     {
         String bufferString = preferences.getString(BUFFER, "[]");
         android.util.Log.d("bufferstring", bufferString);
@@ -239,7 +246,7 @@ public class Buffer {
         }
     }
 
-    public void saveBuffer()
+    public void SaveBuffer()
     {
         String BufferString;
         BufferString = gson.toJson(clipDataBuffer);
