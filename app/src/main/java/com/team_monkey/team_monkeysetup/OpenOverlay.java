@@ -23,14 +23,15 @@ import static android.support.v4.app.ActivityCompat.startActivityForResult;
 public class OpenOverlay extends Activity {
     public final int REQUEST_CODE = 60696;
     private WindowManager windowManager;
-    private ImageView chatHead;
+    private HUDView chatHead;
+
 
     protected void onCreate(Bundle savedInstanceState){
          super.onCreate(savedInstanceState);
          ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.SYSTEM_ALERT_WINDOW},0);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (!Settings.canDrawOverlays(this)) {
-                Intent intent = new Intent(this, TestOverlay.class);
+                Intent intent = new Intent(this, HUDView.class);
                 startService(intent);
             } else {
                 requestPermissions();
@@ -55,8 +56,7 @@ public class OpenOverlay extends Activity {
     @Override public void onActivityResult(int requestCode, int resultCode, Intent data){
         windowManager = (WindowManager) getSystemService(WINDOW_SERVICE);
 
-        chatHead = new ImageView(this);
-        chatHead.setImageResource(R.drawable.ic_launcher);
+        chatHead = new HUDView(this);
 
         WindowManager.LayoutParams params = null;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
