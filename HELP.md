@@ -5,6 +5,8 @@
 - [Welcome](#welcome)
 - [Requirements](#requirements)
 - [Install](#install)
+- [Launch](#launch)
+- [Buffer Display](#buffer-display)
 - [Preferences](#preferences)
 - [Copying](#copying)
 - [Pasting](#pasting)
@@ -38,9 +40,23 @@ To install this app you will need to act like a real developer because no one wa
 
 Now you are ready to use BuffCut&trade;!
 
+## Launch
+
+You can launch the main app screen by clicking the icon with the scissors. This will also start the service that will add items to the buffer.
+
+## Buffer Display
+
+When you launch the main app screen you can see the following buffer display:
+
+![Picture of Buffer Display](HelpImages/BufferDisplay.png)
+
+This should display the current state of your buffer, with all of your favorite Taylor Swift lyrics. You can switch to the favorites tab, but that doesn't do anything right now.
+
+You can also hit the "Start Notification" button, which will start the notification that you can hit at any time to open up the buffer overlay for pasting.
+
 ## Preferences
 
-The following is a pretty screenshot of our preferences page.
+The following is a pretty screenshot of our preferences page. You can get to it by hitting the three dots in the upper right hand corner and then hitting settings from our main app screen.
 
 ![Picture of Preferences](HelpImages/Preferences.png)
 
@@ -62,9 +78,7 @@ In order to paste things you first have to click on the BuffCut&trade; notificat
 
 ![Picture of Pasting](HelpImages/Pasting.png)
 
-Simply tap on the text and it will be copied to your clipboard so you can paste it!
-
-There is a known bug where this overlay opens up the BuffCut&trade; app (which you then have to close in order to resume pasting), but hey, the good news is that this is easily fixed by you, the user. Because here at Team Monkey, we trust you enough to let you close an app that keeps opening when you don't want it to.
+Simply tap on the text and it will be copied to your clipboard so you can paste it! SO COOL!
 
 ## Uninstall
 
