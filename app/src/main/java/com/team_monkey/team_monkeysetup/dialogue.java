@@ -1,5 +1,6 @@
 package com.team_monkey.team_monkeysetup;
 
+import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -15,56 +16,48 @@ import android.os.IBinder;
 import android.support.annotation.RequiresApi;
 import android.util.Log;
 
+import java.util.Arrays;
+import java.util.LinkedList;
+
 /**
  * Created by jbern on 11/26/2017.
  */
 
 public class dialogue extends DialogFragment {
-    private Buffer buffer;
-    private BufferService bufferService;
-    private Intent serviceIntent;
-    private boolean bufferBound = false;
     @RequiresApi(api = Build.VERSION_CODES.M)
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         // Use the Builder class for convenient dialogue construction
         Context context = getContext();
-        Log.w("debug", "service binding");
-        context.bindService(serviceIntent, serviceConnection, Context.BIND_AUTO_CREATE);
-        Log.w("debug", "service bound");
+
+        Activity activity = getActivity();
+        Intent intent = activity.getIntent();
+        Bundle extras = intent.getExtras();
+        String[] bufferDataArray = (String[])extras.get("bufferData");
+        LinkedList bufferDataList = new LinkedList<String>(Arrays.asList(bufferDataArray));
+        final Buffer buffer = new Buffer(context, bufferDataList);
+        final String[] bufferDisplayData = buffer.Data().toArray(new String[buffer.Data().size()]);
+
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        final CharSequence[] colors = new String[2];
-        colors[0] = "red";
-        colors[1] = "green";
+
         builder.setTitle("Pick a clipboard Item")
-                .setItems(colors, new DialogInterface.OnClickListener() {
+                .setItems(bufferDisplayData, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        Log.w("tag", ""+ colors[which]);
+                        sendSelectedItemToClipBoard(which, buffer);
                         dismiss();
                     }
                 });
         // Create the AlertDialog object and return it
         return builder.create();
+
     }
 
-    private ServiceConnection serviceConnection = new ServiceConnection() {
+    @Override
+    public void onResume() {
+        super.onResume();
 
-        @RequiresApi(api = Build.VERSION_CODES.M)
-        @Override
-        public void onServiceConnected(ComponentName className,
-                                       IBinder service) {
-            // We've bound to LocalService, cast the IBinder and get LocalService instance
-            BufferService.BufferBinder binder = (BufferService.BufferBinder) service;
-            bufferService = binder.getService();
-            buffer = new Buffer( getContext(), bufferService.getBufferData());
-            android.util.Log.d("ServiceConnection", "Buffer Log: ");
-            buffer.LogBuffer();
-            Log.w("test", "" + 100);
-            bufferBound = true;
-        }
+    }
 
-        @Override
-        public void onServiceDisconnected(ComponentName arg0) {
-            bufferBound = false;
-        }
-    };
+    private void sendSelectedItemToClipBoard(int index, Buffer buffer){
+        buffer.FillClipboardWithElementAtIndex(index);
+    }
 }

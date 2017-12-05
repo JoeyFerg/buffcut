@@ -229,7 +229,11 @@ public class ClipboardScreenActivity extends AppCompatActivity {
                 mNotificationManager.createNotificationChannel(mChannel);
             }
         }
+
+
+
         Intent intent = new Intent(context , OpenOverlay.class);
+        intent.putExtra("bufferData", buffer.Data().toArray(new String[buffer.Data().size()]));
         PendingIntent pendingIntent = PendingIntent.getActivity(context,
                 1, //random id I created (Should be pulled out)
                 intent,

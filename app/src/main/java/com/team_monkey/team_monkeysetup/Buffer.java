@@ -236,6 +236,12 @@ public class Buffer {
         return numRemoved;
     }
 
+    public void ClearBuffer()
+    {
+        this.clipDataBuffer = new LinkedList<String>();
+        this.favBuffer = new LinkedList<String>();
+    }
+
     public void LoadBuffer()
     {
         String bufferString = preferences.getString(BUFFER, "[]");
