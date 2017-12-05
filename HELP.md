@@ -31,9 +31,9 @@ To install this app you will need to act like a real developer because no one wa
 
 1. Find a way to contact Team Monkey.
 1. Ask Team Monkey for access to our BuffCut&trade; repository.
-1. Clone the BuffCut&trade; repository to your local computer.
-1. Install Android Studio.
-1. Enable Developer mode on your phone.
+1. [Clone](https://docs.gitlab.com/ee/gitlab-basics/command-line-commands.html) the BuffCut&trade; repository to your local computer.
+1. Install [Android Studio](https://developer.android.com/studio/index.html).
+1. [Enable Developer mode](https://www.google.com/search?q=how+to+enable+developer+mode+on+android&oq=how+to+enable+developer+mode+on+android&aqs=chrome..69i57.3099j1j8&sourceid=chrome&ie=UTF-8) on your phone.
 1. Install BuffCut&trade; on your phone.
 
 Now you are ready to use BuffCut&trade;!
@@ -68,7 +68,7 @@ There is a known bug where this overlay opens up the BuffCut&trade; app (which y
 
 ## Uninstall
 
-You will probably use this feature the most out of any other features that we have implemented for you. The best part is, this is also the simplest part of the app. Simply follow the official Android guide for how to uninstall apps.
+You will probably use this feature the most out of any other features that we have implemented for you. The best part is, this is also the simplest part of the app. Simply follow the official [Android guide](https://support.google.com/googleplay/answer/2521768?hl=en) for how to uninstall apps.
 
 ## Disclaimer
 
@@ -76,6 +76,4 @@ No cows were injured in the production of this app.
 
 Please do not use this app for anything other than the prescribed uses. Offences include: planning to take over the world, actually using this app, and sending mass emails about your pets to your co-workers.
 
-#
-
-Property of Team Monkey (but if you really want it, you can have it)
+Property of Team Monkey (but if you really want it, you can have it).
