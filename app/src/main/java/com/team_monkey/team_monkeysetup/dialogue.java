@@ -1,20 +1,15 @@
 package com.team_monkey.team_monkeysetup;
 
 import android.app.Activity;
-import android.app.ActivityManager;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.ServiceConnection;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.IBinder;
 import android.support.annotation.RequiresApi;
-import android.util.Log;
 
 import java.util.Arrays;
 import java.util.LinkedList;

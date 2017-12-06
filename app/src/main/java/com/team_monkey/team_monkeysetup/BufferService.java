@@ -11,10 +11,6 @@ import android.util.Log;
 import android.app.PendingIntent;
 import android.content.*;
 import android.app.*;
-import android.view.View;
-
-import com.google.gson.Gson;
-
 import java.util.LinkedList;
 
 public class BufferService extends Service {
