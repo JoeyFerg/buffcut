@@ -4,17 +4,17 @@
     <PreferenceCategory android:title="General">
 
     </PreferenceCategory>
-    <com.pavelsikun.seekbarpreference.SeekBarPreference
-        android:key="your_pref_key"
-        android:title="Storage Limit"
-        android:summary="Limit number of clippings stored in clipboard"
-        android:enabled="true"
+    <Preference
         android:defaultValue="25"
-        sample:msbp_minValue="5"
-        sample:msbp_maxValue="50"
-        sample:msbp_interval="5"
-        sample:msbp_measurementUnit="clippings"
-        sample:msbp_dialogEnabled="true" />
+        android:enabled="true"
+        android:key="your_pref_key"
+        android:summary="Limit number of clippings stored in clipboard"
+        android:title="Storage Limit">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetPackage="com.team_monkey.team_monkeysetup"
+            android:targetClass="com.team_monkey.team_monkeysetup.StorageLimitPreference" />
+    </Preference>
 
     <Preference
         android:defaultValue="No Limit"

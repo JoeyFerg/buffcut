@@ -15,15 +15,19 @@
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".OpenOverlay"
-            android:theme="@android:style/Theme.Dialog"/>
+        <activity
+            android:name=".OpenOverlay"
+            android:theme="@android:style/Theme.Dialog" />
+
         <service
             android:name=".BufferService"
             android:enabled="true"
-            android:exported="true"></service>
+            android:exported="true" />
+
         <activity
             android:name=".SettingsActivity"
             android:label="@string/title_activity_settings"
@@ -32,5 +36,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.team_monkey.team_monkeysetup.ClipboardScreenActivity" />
         </activity>
+        <activity android:name=".StorageLimitPreference" />
     </application>
+
 </manifest>

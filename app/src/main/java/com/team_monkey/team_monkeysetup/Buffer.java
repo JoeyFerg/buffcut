@@ -9,9 +9,12 @@ import android.content.SharedPreferences;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-import android.content.*;
 import junit.framework.Assert;
-import java.util.*;
+
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.ListIterator;
 
 public class Buffer {
     private ClipboardManager clipboardManager;
@@ -163,6 +166,14 @@ public class Buffer {
         return favBuffer;
     }
 
+    public String[] DataArray() {
+        return clipDataBuffer.toArray(new String[clipDataBuffer.size()]);
+    }
+
+    public String[] DataFavArray() {
+        return favBuffer.toArray(new String[favBuffer.size()]);
+    }
+
     public void FillClipboardWithElementAtIndex(int index)
     {
         Assert.assertTrue("INVALID BUFFER INDEX!", IsValidIndex(clipDataBuffer, index));
@@ -181,6 +192,11 @@ public class Buffer {
     {
         clipboardManager.setPrimaryClip(ClipData.newPlainText("test", message));
         android.util.Log.d("test", message);
+    }
+
+    public void Clear() {
+        clipDataBuffer = new LinkedList<String>();
+        favBuffer = new LinkedList<String>();
     }
 
     public void LogBuffer()
