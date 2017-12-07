@@ -21,6 +21,13 @@ public class BufferService extends Service {
     Buffer buffer;
     private final IBinder bufferBinder = new BufferBinder();
 
+    private Buffer.BufferCallback buffCallBack = new Buffer.BufferCallback() {
+        @Override
+        public void callBack() {
+            sendNotifications();
+        }
+    };
+
     public class BufferBinder extends Binder {
         BufferService getService() {
             return BufferService.this;
@@ -35,6 +42,7 @@ public class BufferService extends Service {
     {
         buffer = new Buffer(this);
         buffer.LoadBuffer();
+        buffer.RegisterBufferCallback(buffCallBack);
         runInForeground();
         sendNotifications();
     }
@@ -46,7 +54,7 @@ public class BufferService extends Service {
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0,
                 notificationIntent, 0);
 
-        initChannels(this);
+        initChannels(this, "default", "Service");
 
         Notification notification = new NotificationCompat.Builder(this, "default")
                 .setContentTitle("My Awesome App")
@@ -56,14 +64,14 @@ public class BufferService extends Service {
         startForeground(1337, notification);
     }
 
-    public void initChannels(Context context) {
+    public void initChannels(Context context, String channelId, String channelName) {
         if (Build.VERSION.SDK_INT < 26) {
             return;
         }
         NotificationManager notificationManager =
                 (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-        NotificationChannel channel = new NotificationChannel("default",
-                "Channel name",
+        NotificationChannel channel = new NotificationChannel(channelId,
+                channelName,
                 NotificationManager.IMPORTANCE_DEFAULT);
         channel.setDescription("Channel description");
         notificationManager.createNotificationChannel(channel);
@@ -100,61 +108,27 @@ public class BufferService extends Service {
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         String id = "my_channel_01";
         String name = "name";
-        int importance = 0;
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
-            importance = NotificationManager.IMPORTANCE_LOW;
-        }
-        NotificationChannel mChannel = null;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            mChannel = new NotificationChannel(id, name, importance);
-        }
-        if (mChannel != null) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                mChannel.enableLights(true);
-            }
-        }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            if (mNotificationManager != null) {
-                assert mChannel != null;
-                mNotificationManager.createNotificationChannel(mChannel);
-            }
-        }
 
-
+        initChannels(this, id, name);
 
         Intent intent = new Intent(context , OpenOverlay.class);
-        intent.putExtra("bufferData", buffer.Data().toArray(new String[buffer.Data().size()]));
+        intent.putExtra("bufferData", buffer.DataArray());
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_LAUNCH_ADJACENT);
         PendingIntent pendingIntent = PendingIntent.getActivity(context,
                 1, //random id I created (Should be pulled out)
                 intent,
                 PendingIntent.FLAG_UPDATE_CURRENT);
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            Notification.Builder mBuilder = new Notification.Builder(
-                    BufferService.this, id)
-                    .setContentTitle("Title")
-                    .setContentIntent(pendingIntent)
-                    .setSmallIcon(R.mipmap.ic_launcher);
+        NotificationCompat.Builder nb = new NotificationCompat.Builder(this, id);
+        nb.setContentTitle("BuffCut").setContentIntent(pendingIntent).setSmallIcon(R.mipmap.ic_launcher);
 
-            Notification notification;
-            Notification notificationTest;
 
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-                notification = mBuilder.build();
-            } else {
-                notification = mBuilder.getNotification();
-            }
+        Notification notification = nb.build();
 
-            notification.flags |= Notification.FLAG_NO_CLEAR | Notification.FLAG_ONGOING_EVENT;
-            if (mNotificationManager != null) {
-                mNotificationManager.notify(1, notification);
-            }
+        notification.flags |= Notification.FLAG_NO_CLEAR | Notification.FLAG_ONGOING_EVENT;
+        if (mNotificationManager != null) {
+            mNotificationManager.notify(1, notification);
         }
-
     }
-
-
-
-
 
 }

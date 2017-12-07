@@ -26,6 +26,11 @@ public class Buffer {
     private Gson gson;
     private String PREF_NAME = "BuffClip";
     private String BUFFER = "Buffer";
+    private BufferCallback callback;
+
+    public interface BufferCallback{
+        void callBack();
+    }
 
     private ClipboardManager.OnPrimaryClipChangedListener onChangeListener = new ClipboardManager.OnPrimaryClipChangedListener() {
         @Override
@@ -41,6 +46,9 @@ public class Buffer {
                     }
                     else
                         android.util.Log.d("====ClipNotAdded====", "Empty string ignored");
+
+                    if(callback != null)
+                        callback.callBack();
             }
             else
                 android.util.Log.d("InvalidClip","Invalid clip ignored");
@@ -57,6 +65,7 @@ public class Buffer {
 
         preferences = context.getSharedPreferences(PREF_NAME, 0);
         gson = new Gson();
+        callback = null;
 
         AddClipboardEventListener();
     }
@@ -71,6 +80,7 @@ public class Buffer {
 
         preferences = context.getSharedPreferences(PREF_NAME, 0);
         gson = new Gson();
+        callback = null;
 
         AddClipboardEventListener();
     }
@@ -85,8 +95,14 @@ public class Buffer {
 
         preferences = context.getSharedPreferences(PREF_NAME, 0);
         gson = new Gson();
+        callback = null;
 
         AddClipboardEventListener();
+    }
+
+    public void RegisterBufferCallback(BufferCallback buffCallBack)
+    {
+        callback = buffCallBack;
     }
 
     public void AddClipboardEventListener()

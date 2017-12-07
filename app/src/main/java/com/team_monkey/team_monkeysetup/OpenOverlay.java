@@ -5,18 +5,15 @@ package com.team_monkey.team_monkeysetup;
  */
 
 import android.app.Activity;
+import android.app.Service;
 import android.os.Bundle;
 
 public class OpenOverlay extends Activity {
 
-     protected void onCreate(Bundle savedInstanceState){
-         super.onCreate(savedInstanceState);
+    protected void onCreate(Bundle savedInstanceState){
+        super.onCreate(savedInstanceState);
 
-
-
-
-
-         dialogue dialogueTest = new dialogue();
-         dialogueTest.show(getFragmentManager(), "tag1");
+        dialogue dialogueTest = new dialogue();
+        dialogueTest.show(getFragmentManager(), "tag1");
     }
 }

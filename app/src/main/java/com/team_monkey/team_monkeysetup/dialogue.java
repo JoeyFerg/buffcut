@@ -52,6 +52,13 @@ public class dialogue extends DialogFragment {
 
     }
 
+    @Override
+    public void onDismiss(DialogInterface dialogInterface) {
+        super.onResume();
+        if(getActivity() != null)
+            getActivity().finish();
+    }
+
     private void sendSelectedItemToClipBoard(int index, Buffer buffer){
         buffer.FillClipboardWithElementAtIndex(index);
     }

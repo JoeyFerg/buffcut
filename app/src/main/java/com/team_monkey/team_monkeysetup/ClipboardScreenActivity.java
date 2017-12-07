@@ -1,6 +1,7 @@
 package com.team_monkey.team_monkeysetup;
 
 import android.app.ActivityManager;
+import android.app.FragmentTransaction;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -17,8 +18,8 @@ import android.support.design.widget.TabLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
+import android.app.Fragment;
+import android.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
@@ -108,6 +109,28 @@ public class ClipboardScreenActivity extends AppCompatActivity {
         return false;
     }
 
+    private void AddTabFragments()
+    {
+        tabLayout = (TabLayout) findViewById(R.id.tabLayout);
+        viewPager = (ViewPager) findViewById(R.id.viewPager);
+        viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
+        Bundle bundle = new Bundle();
+        bundle.putStringArray("bufferTab", buffer.DataArray());
+        ClipboardTab clipboardTab = new ClipboardTab();
+        clipboardTab.setArguments(bundle);
+
+        Bundle bundleFav = new Bundle();
+        bundleFav.putStringArray("bufferTab", buffer.DataArray());
+        bundleFav.putStringArray("bufferFavTab", buffer.DataFavArray());
+        FavoritesTab favoritesTab = new FavoritesTab();
+        favoritesTab.setArguments(bundleFav);
+
+        viewPagerAdapter.addFragments(clipboardTab, "Clipboard");
+        viewPagerAdapter.addFragments(favoritesTab, "Favorites");
+        viewPager.setAdapter(viewPagerAdapter);
+        tabLayout.setupWithViewPager(viewPager);
+    }
+
     /** Defines callbacks for service binding, passed to bindService() */
     private ServiceConnection serviceConnection = new ServiceConnection() {
 
@@ -121,26 +144,7 @@ public class ClipboardScreenActivity extends AppCompatActivity {
             android.util.Log.d("ServiceConnection", "Buffer Log: ");
             buffer.LogBuffer();
             bufferBound = true;
-
-            tabLayout = (TabLayout) findViewById(R.id.tabLayout);
-            viewPager = (ViewPager) findViewById(R.id.viewPager);
-            viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
-            Bundle bundle = new Bundle();
-            bundle.putStringArray("bufferTab", buffer.DataArray());
-            ClipboardTab clipboardTab = new ClipboardTab();
-            clipboardTab.setArguments(bundle);
-
-            Bundle bundleFav = new Bundle();
-            bundleFav.putStringArray("bufferTab", buffer.DataArray());
-            bundleFav.putStringArray("bufferFavTab", buffer.DataFavArray());
-            FavoritesTab favoritesTab = new FavoritesTab();
-            favoritesTab.setArguments(bundleFav);
-
-            viewPagerAdapter.addFragments(clipboardTab, "Clipboard");
-            viewPagerAdapter.addFragments(favoritesTab, "Favorites");
-            viewPager.setAdapter(viewPagerAdapter);
-            tabLayout.setupWithViewPager(viewPager);
-            ;
+            AddTabFragments();
         }
 
         @Override
@@ -174,65 +178,5 @@ public class ClipboardScreenActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    public void sendNotifications(View view) {
-        Context context = getApplicationContext();
-
-        NotificationManager mNotificationManager =
-                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        String id = "my_channel_01";
-        String name = "name";
-        int importance = 0;
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
-            importance = NotificationManager.IMPORTANCE_LOW;
-        }
-        NotificationChannel mChannel = null;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            mChannel = new NotificationChannel(id, name, importance);
-        }
-        if (mChannel != null) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                mChannel.enableLights(true);
-            }
-        }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            if (mNotificationManager != null) {
-                assert mChannel != null;
-                mNotificationManager.createNotificationChannel(mChannel);
-            }
-        }
-
-
-
-        Intent intent = new Intent(context , OpenOverlay.class);
-        intent.putExtra("bufferData", buffer.Data().toArray(new String[buffer.Data().size()]));
-        PendingIntent pendingIntent = PendingIntent.getActivity(context,
-                1, //random id I created (Should be pulled out)
-                intent,
-                PendingIntent.FLAG_UPDATE_CURRENT);
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            Notification.Builder mBuilder = new Notification.Builder(
-                    ClipboardScreenActivity.this, id)
-                    .setContentTitle("Title")
-                    .setContentIntent(pendingIntent)
-                    .setSmallIcon(R.mipmap.ic_launcher);
-
-            Notification notification;
-            Notification notificationTest;
-
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-                notification = mBuilder.build();
-            } else {
-                notification = mBuilder.getNotification();
-            }
-
-            notification.flags |= Notification.FLAG_NO_CLEAR | Notification.FLAG_ONGOING_EVENT;
-            if (mNotificationManager != null) {
-                mNotificationManager.notify(1, notification);
-            }
-        }
-
     }
 }
